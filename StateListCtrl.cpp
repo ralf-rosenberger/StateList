@@ -80,7 +80,7 @@ BEGIN_MESSAGE_MAP(CStateListCtrl, CListCtrl)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
-// Behandlungsroutinen für Nachrichten CStateListCtrl
+// Behandlungsroutinen fÃ¼r Nachrichten CStateListCtrl
 
 void CStateListCtrl::OnPaint() 
 {	
@@ -97,6 +97,8 @@ static bool bFirst = true;
 		CPaintDC dc(this);
 
 		pbi = (BITMAPINFO*)HeapAlloc(hHeap,HEAP_ZERO_MEMORY,sizeof(BITMAPINFOHEADER)+sizeof(rgb));
+		if(!pbi)
+			AfxThrowMemoryException();
 		CopyMemory(&pbi->bmiHeader,&bih,sizeof(BITMAPINFOHEADER));
 		CopyMemory(&pbi->bmiColors,&rgb,sizeof(rgb));
 
@@ -152,12 +154,12 @@ CPoint pt;
 		{
 		if(GetKeyState(VK_SHIFT) < 0)
 			{
-			register int i = GetSelectionMark();
+			int i = GetSelectionMark();
 
 			int iStart = index < i ? index:i;
 			int iEnd   = index < i ? i+1:index+1;
 
-			for(i=iStart; i != iEnd; ++i)
+			for(i=iStart; i != iEnd; i++)
 				SetCheck(i,IsChecked(i)^true);
 			}
 		else
